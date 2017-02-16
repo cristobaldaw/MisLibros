@@ -16,7 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         ListView lista_libros = (ListView) findViewById(R.id.lista_libros);
         Adaptador adaptador = new Adaptador(this,cursor);
         lista_libros.setAdapter(adaptador);
-
+        lista_libros.setOnItemClickListener(this);
     }
 
     public void Anadir(View view){
@@ -69,5 +69,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int posicion, long libro_id) {
+        Intent i = new Intent(this, Editar_Eliminar.class);
+        i.putExtra("libro_id", libro_id);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
     }
 }

@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import java.util.Random;
+
 /**
  * Created by 2DAW on 14/02/2017.
  */
@@ -35,6 +37,18 @@ public class Adaptador extends CursorAdapter {
         txt_titulo.setText(titulo_bd);
         txt_autor.setText(autor_bd);
         rt_nota.setRating(nota_bd);
+
+        Random rand = new Random();
+        int random = 1 + rand.nextInt((3 - 1) + 1);
+        if (random == 1) {
+            img_libro.setImageResource(R.drawable.libro1);
+        }
+        if (random == 2) {
+            img_libro.setImageResource(R.drawable.libro2);
+        }
+        if (random == 3) {
+            img_libro.setImageResource(R.drawable.libro3);
+        }
     }
 
 }

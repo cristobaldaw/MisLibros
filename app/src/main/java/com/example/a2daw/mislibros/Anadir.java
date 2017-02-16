@@ -27,15 +27,12 @@ public class Anadir extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.anadir);
 
-//        ActionBar actionBar = getSupportActionBar();
-//        actionBar.setDisplayHomeAsUpEnabled(true);
         Button btn_guardar = (Button) findViewById(R.id.btn_guardar);
         btn_guardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 insertarLibro();
             }
-
         });
     }
 
@@ -56,20 +53,28 @@ public class Anadir extends AppCompatActivity {
         RatingBar rt_nota  = (RatingBar) findViewById(R.id.rt_nota);
         EditText txt_resumen = (EditText) findViewById(R.id.txt_resumen);
 
-        values.put("titulo", txt_titulo.getText().toString());
-        values.put("autor", txt_autor.getText().toString());
-        values.put("editorial", txt_editorial.getText().toString());
-        values.put("isbn", txt_isbn.getText().toString());
-        values.put("paginas", txt_paginas.getText().toString());
-        values.put("anyo", txt_anio.getText().toString());
-        values.put("ebook", chk_ebook.isChecked());
-        values.put("leido", chk_leido.isChecked());
-        values.put("nota", rt_nota.getRating());
-        values.put("resumen", txt_resumen .getText().toString());
+        if (txt_titulo.getText().toString().trim().length() == 0 || txt_autor.getText().toString().trim().length() == 0) {
+            Toast.makeText(getApplicationContext(), "Debe introducir título y autor", Toast.LENGTH_LONG).show();
+        } else {
+            values.put("titulo", txt_titulo.getText().toString());
+            values.put("autor", txt_autor.getText().toString());
+            values.put("editorial", txt_editorial.getText().toString());
+            values.put("isbn", txt_isbn.getText().toString());
+            values.put("paginas", txt_paginas.getText().toString());
+            values.put("anyo", txt_anio.getText().toString());
+            values.put("ebook", chk_ebook.isChecked());
+            values.put("leido", chk_leido.isChecked());
+            values.put("nota", rt_nota.getRating());
+            values.put("resumen", txt_resumen .getText().toString());
 
-        libros_bd.anadir(bd, values);
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+            libros_bd.anadir(bd, values);
+
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            Toast.makeText(getApplicationContext(), "Libro añadido con éxito", Toast.LENGTH_LONG).show();
+        }
+
+
     }
 
 

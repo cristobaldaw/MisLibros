@@ -43,6 +43,11 @@ public class Libros_bd extends SQLiteOpenHelper {
         bd.insert("tbl_libro", null, values);
     }
 
+    public void editar (SQLiteDatabase bd, ContentValues values, long id) {
+        String libro_id = String.valueOf(id);
+        bd.update("tbl_libro", values, "_id = " + libro_id, null);
+    }
+
 
 
 
