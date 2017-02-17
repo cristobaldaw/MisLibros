@@ -1,11 +1,15 @@
 package com.example.a2daw.mislibros;
 
+import android.app.Dialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -30,6 +34,15 @@ public class Editar_Eliminar extends AppCompatActivity {
                 Editar();
             }
         });
+
+        Button btn_eliminar = (Button) findViewById(R.id.btn_eliminar);
+        btn_eliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogEliminar();
+            }
+        });
+        completarLibro();
     }
 
     public void Editar() {
@@ -58,7 +71,7 @@ public class Editar_Eliminar extends AppCompatActivity {
             values.put("editorial", txt_editorial.getText().toString());
             values.put("isbn", txt_isbn.getText().toString());
             values.put("paginas", txt_paginas.getText().toString());
-            values.put("anyo", txt_anio.getText().toString());
+            values.put("anio", txt_anio.getText().toString());
             values.put("ebook", chk_ebook.isChecked());
             values.put("leido", chk_leido.isChecked());
             values.put("nota", rt_nota.getRating());
@@ -72,12 +85,40 @@ public class Editar_Eliminar extends AppCompatActivity {
         }
     }
 
+    public void DialogEliminar() {
+        AlertDialog.Builder dialogo1 = new AlertDialog.Builder(this);
+        dialogo1.setTitle("Eliminar");
+        dialogo1.setMessage("¿Está seguro de que desea eliminar este libro?");
+        dialogo1.setCancelable(false);
+        dialogo1.setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogo1, int id) {
+                Eliminar();
+            }
+        });
+        dialogo1.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogo1, int id) {
+                // No hace nada
+            }
+        });
+        dialogo1.show();
+    }
+
+    public void Eliminar() {
+        Libros_bd conex = new Libros_bd(this);
+        SQLiteDatabase bd = conex.getWritableDatabase();
+        Intent i = getIntent();
+        long libro_id = i.getLongExtra("libro_id", 0);
+        conex.eliminar(bd, libro_id);
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        Toast.makeText(getApplicationContext(), "Se ha borrado el libro", Toast.LENGTH_LONG).show();
+    }
+
     public void completarLibro() {
         Libros_bd conex = new Libros_bd(this);
         SQLiteDatabase bd = conex.getWritableDatabase();
         Intent i = getIntent();
-        Long libro_id = i.getLongExtra("libro_id", 0);
-
+        long libro_id = i.getLongExtra("libro_id", 0);
         String datos_libro = "select * from tbl_libro where _id = " + libro_id;
         Cursor cursor = bd.rawQuery(datos_libro, null);
 
@@ -95,28 +136,30 @@ public class Editar_Eliminar extends AppCompatActivity {
         if (cursor.moveToFirst()){
             while(!cursor.isAfterLast()){
 
-                String titulo_b = cursor.getString(cursor.getColumnIndex("titulo"));
-                String autor_b = cursor.getString(cursor.getColumnIndex("autor"));
-                String editorial_b = cursor.getString(cursor.getColumnIndex("editorial"));
-                String isbn_b = cursor.getString(cursor.getColumnIndex("isbn"));
-                String paginas_b = cursor.getString(cursor.getColumnIndex("paginas"));
-                String anyo_b = cursor.getString(cursor.getColumnIndex("anio"));
-                String resumen_b = cursor.getString(cursor.getColumnIndex("resumen"));
-                Integer ebook_b = cursor.getInt(cursor.getColumnIndex("ebook"));
-                Integer leido_b = cursor.getInt(cursor.getColumnIndex("leido"));
-                Float rating_b = cursor.getFloat(cursor.getColumnIndex("valoracion"));
+                String titulo_bd = cursor.getString(cursor.getColumnIndexOrThrow("titulo"));
+                String autor_bd = cursor.getString(cursor.getColumnIndexOrThrow("autor"));
+                String editorial_bd = cursor.getString(cursor.getColumnIndexOrThrow("editorial"));
+                String isbn_bd = cursor.getString(cursor.getColumnIndexOrThrow("isbn"));
+                String paginas_bd = cursor.getString(cursor.getColumnIndexOrThrow("paginas"));
+                String anio_bd = cursor.getString(cursor.getColumnIndexOrThrow("anio"));
+                String resumen_bd = cursor.getString(cursor.getColumnIndexOrThrow("resumen"));
+                Integer ebook_bd = cursor.getInt(cursor.getColumnIndexOrThrow("ebook"));
+                Integer leido_bd = cursor.getInt(cursor.getColumnIndexOrThrow("leido"));
+                Float rating_bd = cursor.getFloat(cursor.getColumnIndexOrThrow("nota"));
 
-                txt_titulo.setText(titulo_b);
-                txt_autor.setText(autor_b);
-                txt_editorial.setText(editorial_b);
-                txt_isbn.setText(isbn_b);
-                txt_paginas.setText(paginas_b);
-                txt_anio.setText(anyo_b);
-                txt_resumen.setText(resumen_b);
-                rt_nota.setRating(rating_b);
+                txt_titulo.setText(titulo_bd);
+                txt_autor.setText(autor_bd);
+                txt_editorial.setText(editorial_bd);
+                txt_isbn.setText(isbn_bd);
+                txt_paginas.setText(paginas_bd);
+                txt_anio.setText(anio_bd);
+                txt_resumen.setText(resumen_bd);
+                rt_nota.setRating(rating_bd);
 
-                //(ebook_b == 0) ? sh_ebook.setChecked(false) : sh_ebook.setChecked(true);
-                //(leido_b == 0) ? sh_leido.setChecked(false) : sh_leido.setChecked(true);
+                boolean ebook = (ebook_bd == 0) ? false : true;
+                boolean leido = (leido_bd == 0) ? false : true;
+                chk_ebook.setChecked(ebook);
+                chk_leido.setChecked(leido);
 
                 cursor.moveToNext();
             }

@@ -61,7 +61,7 @@ public class Anadir extends AppCompatActivity {
             values.put("editorial", txt_editorial.getText().toString());
             values.put("isbn", txt_isbn.getText().toString());
             values.put("paginas", txt_paginas.getText().toString());
-            values.put("anyo", txt_anio.getText().toString());
+            values.put("anio", txt_anio.getText().toString());
             values.put("ebook", chk_ebook.isChecked());
             values.put("leido", chk_leido.isChecked());
             values.put("nota", rt_nota.getRating());

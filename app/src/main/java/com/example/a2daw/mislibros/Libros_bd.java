@@ -26,7 +26,7 @@ public class Libros_bd extends SQLiteOpenHelper {
                 "editorial TEXT, " +
                 "isbn TEXT, " +
                 "paginas TEXT, " +
-                "anyo INTEGER, " +
+                "anio INTEGER, " +
                 "ebook INTEGER, " +
                 "leido INTEGER, " +
                 "nota INTEGER, " +
@@ -46,6 +46,10 @@ public class Libros_bd extends SQLiteOpenHelper {
     public void editar (SQLiteDatabase bd, ContentValues values, long id) {
         String libro_id = String.valueOf(id);
         bd.update("tbl_libro", values, "_id = " + libro_id, null);
+    }
+
+    public void eliminar(SQLiteDatabase bd, long id) {
+        bd.execSQL("delete from tbl_libro where _id = " + String.valueOf(id));
     }
 
 

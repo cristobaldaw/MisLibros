@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         Libros_bd libros_bd = new Libros_bd(this);
         SQLiteDatabase bd = libros_bd.getWritableDatabase();
-        Cursor cursor = bd.rawQuery("SELECT * FROM tbl_libro", null);
+        Cursor cursor = bd.rawQuery("select * from tbl_libro", null);
         ListView lista_libros = (ListView) findViewById(R.id.lista_libros);
         Adaptador adaptador = new Adaptador(this,cursor);
         lista_libros.setAdapter(adaptador);
