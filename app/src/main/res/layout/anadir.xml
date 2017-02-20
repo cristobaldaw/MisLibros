@@ -142,11 +142,4 @@
         android:layout_weight="0.13"
         android:hint="Resumen:" />
 
-    <Button
-        android:text="Guardar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_guardar"
-        android:layout_weight="0.13" />
-
 </LinearLayout>

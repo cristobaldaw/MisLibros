@@ -1,0 +1,26 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.a2daw.mislibros.MainActivity">
+    <item
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        android:showAsAction="always|collapseActionView"
+        android:icon="@android:drawable/ic_menu_edit"
+        android:title="Editar"
+        android:id="@+id/btn_editar" />
+    <item
+        android:orderInCategory="100"
+        android:showAsAction="always|collapseActionView"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="Eliminar"
+        app:showAsAction="always"
+        android:id="@+id/btn_eliminar" />
+    <item
+        android:orderInCategory="100"
+        android:showAsAction="always|collapseActionView"
+        android:icon="@android:drawable/ic_menu_save"
+        android:title="Guardar"
+        app:showAsAction="always"
+        android:id="@+id/btn_anadir" />
+</menu>

@@ -1,6 +1,5 @@
 package com.example.a2daw.mislibros;
 
-import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,9 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RatingBar;
@@ -26,23 +24,35 @@ public class Editar_Eliminar extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.editar_eliminar);
-
-        Button btn_editar = (Button) findViewById(R.id.btn_editar);
-        btn_editar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Editar();
-            }
-        });
-
-        Button btn_eliminar = (Button) findViewById(R.id.btn_eliminar);
-        btn_eliminar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DialogEliminar();
-            }
-        });
         completarLibro();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_superior, menu);
+        MenuItem guardar = menu.findItem(R.id.btn_anadir);
+        MenuItem eliminar = menu.findItem(R.id.btn_eliminar);
+        MenuItem editar = menu.findItem(R.id.btn_editar);
+        guardar.setVisible(false);
+        eliminar.setVisible(true);
+        editar.setVisible(true);
+        return true;
+    }
+
+   @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.btn_eliminar:
+                DialogEliminar();
+                return true;
+            case R.id.btn_editar:
+                Editar();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
     }
 
     public void Editar() {
@@ -81,7 +91,7 @@ public class Editar_Eliminar extends AppCompatActivity {
 
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
-            Toast.makeText(getApplicationContext(), "Libro editado con éxito", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Libro editado correctamente", Toast.LENGTH_LONG).show();
         }
     }
 

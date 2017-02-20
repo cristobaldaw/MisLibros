@@ -27,13 +27,31 @@ public class Anadir extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.anadir);
 
-        Button btn_guardar = (Button) findViewById(R.id.btn_guardar);
-        btn_guardar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_superior, menu);
+        MenuItem guardar = menu.findItem(R.id.btn_anadir);
+        MenuItem eliminar = menu.findItem(R.id.btn_eliminar);
+        MenuItem editar = menu.findItem(R.id.btn_editar);
+        guardar.setVisible(true);
+        eliminar.setVisible(false);
+        editar.setVisible(false);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.btn_anadir:
                 insertarLibro();
-            }
-        });
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
     }
 
 
